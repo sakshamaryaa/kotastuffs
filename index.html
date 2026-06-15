@@ -1,526 +1,806 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>KotaStuffs — A Curated Bookhouse</title>
-  <meta name="description" content="Marginalia is a curated luxury bookhouse offering rare editions, modern classics, and timeless literature in an elegant reading experience." />
-
-  <!-- Elegant serif typography -->
+  <title>KotaStuffs — The Luxury Bookhouse</title>
+  <meta name="description" content="KotaStuffs — a curated luxury bookhouse. Rare editions, modern classics, and collector's volumes, priced in INR." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
-
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
+    /* ---------- Tokens ---------- */
     :root {
-      --cream: #f4ece0;
-      --cream-deep: #ece1d0;
-      --charcoal: #2b2723;
-      --charcoal-soft: #4a443d;
-      --gold: #9a7b4f;
-      --gold-deep: #7c6038;
-      --line: #d9cbb6;
-      --radius: 4px;
-      --max: 1200px;
+      --bg: #0f0f11;
+      --bg-soft: #16161a;
+      --surface: rgba(255, 255, 255, 0.04);
+      --surface-2: rgba(255, 255, 255, 0.06);
+      --border: rgba(255, 255, 255, 0.10);
+      --border-strong: rgba(255, 255, 255, 0.18);
+      --text: #f5f4f0;
+      --muted: #a4a3a0;
+      --faint: #6f6e6b;
+      --gold: #c8a86b;
+      --gold-soft: #d8bd86;
+      --glass: rgba(18, 18, 21, 0.55);
+      --shadow-3d: 18px 30px 60px rgba(0, 0, 0, 0.55), 4px 8px 18px rgba(0, 0, 0, 0.45);
+      --shadow-hover: 26px 42px 80px rgba(0, 0, 0, 0.62), 6px 12px 24px rgba(0, 0, 0, 0.5);
+      --nav-h: 76px;
+    }
+
+    [data-theme="light"] {
+      --bg: #f4f1ea;
+      --bg-soft: #efebe2;
+      --surface: rgba(0, 0, 0, 0.03);
+      --surface-2: rgba(0, 0, 0, 0.05);
+      --border: rgba(20, 18, 14, 0.12);
+      --border-strong: rgba(20, 18, 14, 0.22);
+      --text: #1a1814;
+      --muted: #5f5a51;
+      --faint: #8a857b;
+      --gold: #9a7c3e;
+      --gold-soft: #b5934d;
+      --glass: rgba(244, 241, 234, 0.6);
+      --shadow-3d: 18px 30px 55px rgba(60, 50, 30, 0.22), 4px 8px 16px rgba(60, 50, 30, 0.16);
+      --shadow-hover: 26px 42px 70px rgba(60, 50, 30, 0.28), 6px 12px 22px rgba(60, 50, 30, 0.2);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     html { scroll-behavior: smooth; }
 
     body {
-      background-color: var(--cream);
-      color: var(--charcoal);
-      font-family: 'EB Garamond', Georgia, serif;
-      font-size: 18px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Inter", system-ui, sans-serif;
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      transition: background 0.5s ease, color 0.5s ease;
     }
 
-    h1, h2, h3, .display {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-weight: 500;
-      line-height: 1.1;
-      letter-spacing: 0.01em;
-    }
-
+    h1, h2, h3, .serif { font-family: "Fraunces", Georgia, serif; }
     a { color: inherit; text-decoration: none; }
 
-    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 32px; }
+    .wrap { width: min(1240px, 92vw); margin-inline: auto; }
 
     .eyebrow {
       font-size: 0.72rem;
       letter-spacing: 0.32em;
       text-transform: uppercase;
-      color: var(--gold-deep);
-      font-family: 'EB Garamond', serif;
+      color: var(--gold);
       font-weight: 500;
     }
 
     /* ---------- Navigation ---------- */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background-color: rgba(244, 236, 224, 0.86);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
+    nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      height: var(--nav-h);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      background: var(--glass);
+      backdrop-filter: blur(22px) saturate(160%);
+      -webkit-backdrop-filter: blur(22px) saturate(160%);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.4s ease, border-color 0.4s ease;
     }
-
-    .nav {
+    .nav-inner {
+      width: min(1240px, 92vw);
+      margin-inline: auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 78px;
+      gap: 1.5rem;
     }
-
     .brand {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.65rem;
+      font-family: "Fraunces", serif;
+      font-size: 1.5rem;
       font-weight: 600;
-      letter-spacing: 0.04em;
-    }
-    .brand span { color: var(--gold-deep); }
-
-    .nav-links {
+      letter-spacing: 0.01em;
       display: flex;
-      gap: 40px;
-      list-style: none;
-      font-size: 0.95rem;
-      letter-spacing: 0.04em;
+      align-items: center;
+      gap: 2px;
+      white-space: nowrap;
     }
-    .nav-links a { position: relative; padding-bottom: 4px; transition: color 0.25s ease; }
+    .brand span { color: var(--gold); }
+
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.86rem;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      position: relative;
+      transition: color 0.25s ease;
+    }
     .nav-links a::after {
       content: "";
       position: absolute;
-      left: 0; bottom: 0;
+      left: 0; bottom: -6px;
       width: 0; height: 1px;
-      background-color: var(--gold-deep);
+      background: var(--gold);
       transition: width 0.3s ease;
     }
-    .nav-links a:hover { color: var(--gold-deep); }
+    .nav-links a:hover { color: var(--text); }
     .nav-links a:hover::after { width: 100%; }
 
-    .nav-cta {
-      border: 1px solid var(--charcoal);
-      padding: 10px 22px;
-      border-radius: var(--radius);
-      font-size: 0.9rem;
-      letter-spacing: 0.06em;
-      transition: all 0.3s ease;
-    }
-    .nav-cta:hover { background-color: var(--charcoal); color: var(--cream); }
+    .nav-actions { display: flex; align-items: center; gap: 0.85rem; }
 
-    .menu-toggle { display: none; background: none; border: none; cursor: pointer; font-size: 1.4rem; color: var(--charcoal); }
+    /* Search */
+    .search {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.5rem 0.9rem;
+      transition: border-color 0.3s ease, width 0.4s cubic-bezier(.4,0,.2,1), background 0.3s ease;
+      width: 200px;
+    }
+    .search:focus-within { border-color: var(--gold); width: 250px; background: var(--surface-2); }
+    .search svg { width: 16px; height: 16px; stroke: var(--muted); fill: none; stroke-width: 2; flex-shrink: 0; }
+    .search input {
+      background: none; border: none; outline: none;
+      color: var(--text); font-size: 0.84rem; width: 100%; font-family: inherit;
+    }
+    .search input::placeholder { color: var(--faint); }
+
+    .icon-btn {
+      display: grid;
+      place-items: center;
+      width: 42px; height: 42px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      color: var(--text);
+      transition: border-color 0.25s ease, background 0.25s ease, transform 0.2s ease;
+      position: relative;
+    }
+    .icon-btn:hover { border-color: var(--gold); transform: translateY(-1px); }
+    .icon-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+
+    .cart-count {
+      position: absolute;
+      top: -4px; right: -4px;
+      min-width: 18px; height: 18px;
+      padding: 0 4px;
+      border-radius: 999px;
+      background: var(--gold);
+      color: #1a1410;
+      font-size: 0.66rem;
+      font-weight: 700;
+      display: grid;
+      place-items: center;
+      transform: scale(0);
+      transition: transform 0.25s cubic-bezier(.34,1.56,.64,1);
+    }
+    .cart-count.show { transform: scale(1); }
 
     /* ---------- Hero ---------- */
-    .hero { padding: 96px 0 110px; position: relative; overflow: hidden; }
-
+    header.hero { padding-top: calc(var(--nav-h) + 5rem); padding-bottom: 5rem; position: relative; overflow: hidden; }
+    .hero-glow {
+      position: absolute;
+      top: -10%; right: -5%;
+      width: 620px; height: 620px;
+      background: radial-gradient(circle, rgba(200,168,107,0.16), transparent 65%);
+      filter: blur(20px);
+      pointer-events: none;
+      z-index: 0;
+    }
     .hero-grid {
       display: grid;
       grid-template-columns: 1.05fr 0.95fr;
-      gap: 64px;
+      gap: 4rem;
       align-items: center;
-    }
-
-    .hero h1 {
-      font-size: clamp(3rem, 7vw, 5.6rem);
-      margin: 22px 0 26px;
-      letter-spacing: -0.01em;
-    }
-    .hero h1 em { font-style: italic; color: var(--gold-deep); }
-
-    .hero p {
-      max-width: 460px;
-      color: var(--charcoal-soft);
-      font-size: 1.18rem;
-      margin-bottom: 38px;
-    }
-
-    .hero-actions { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
-
-    .btn-primary {
-      background-color: var(--charcoal);
-      color: var(--cream);
-      padding: 15px 34px;
-      border-radius: var(--radius);
-      letter-spacing: 0.06em;
-      font-size: 0.98rem;
-      transition: background-color 0.3s ease, transform 0.3s ease;
-    }
-    .btn-primary:hover { background-color: var(--gold-deep); transform: translateY(-2px); }
-
-    .btn-ghost { letter-spacing: 0.06em; border-bottom: 1px solid var(--charcoal); padding-bottom: 3px; transition: color 0.25s ease, border-color 0.25s ease; }
-    .btn-ghost:hover { color: var(--gold-deep); border-color: var(--gold-deep); }
-
-    /* Hero stacked books visual */
-    .hero-visual { position: relative; height: 480px; display: flex; align-items: center; justify-content: center; }
-    .book-card {
-      position: absolute;
-      width: 210px;
-      height: 312px;
-      border-radius: 3px 6px 6px 3px;
-      box-shadow: -6px 14px 40px rgba(43, 39, 35, 0.28);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 24px;
-      color: #f4ece0;
-      overflow: hidden;
-    }
-    .book-card::before {
-      content: "";
-      position: absolute; left: 0; top: 0; bottom: 0;
-      width: 10px;
-      background: rgba(0,0,0,0.18);
-      box-shadow: inset -2px 0 4px rgba(0,0,0,0.25);
-    }
-    .book-card .bk-title { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; line-height: 1.05; }
-    .book-card .bk-author { font-size: 0.85rem; letter-spacing: 0.08em; opacity: 0.82; margin-top: 8px; text-transform: uppercase; }
-
-    .book-1 { background: linear-gradient(160deg, #3a4a44, #25322d); transform: rotate(-9deg) translateX(-92px); z-index: 1; }
-    .book-2 { background: linear-gradient(160deg, #7c6038, #5c451f); transform: rotate(0deg); z-index: 3; }
-    .book-3 { background: linear-gradient(160deg, #5a3a38, #3e2422); transform: rotate(9deg) translateX(92px); z-index: 2; }
-
-    /* ---------- Marquee strip ---------- */
-    .strip { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background-color: var(--cream-deep); }
-    .strip-inner { display: flex; gap: 56px; padding: 18px 0; justify-content: center; flex-wrap: wrap; }
-    .strip-item { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; letter-spacing: 0.05em; color: var(--charcoal-soft); }
-    .strip-item span { color: var(--gold-deep); }
-
-    /* ---------- Collection ---------- */
-    .section { padding: 100px 0; }
-    .section-head { text-align: center; margin-bottom: 60px; }
-    .section-head h2 { font-size: clamp(2.4rem, 5vw, 3.6rem); margin: 16px 0 14px; }
-    .section-head p { color: var(--charcoal-soft); max-width: 520px; margin: 0 auto; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 44px 36px;
-    }
-
-    .book {
-      cursor: pointer;
-      transition: transform 0.35s ease;
-    }
-    .book:hover { transform: translateY(-8px); }
-
-    .cover {
       position: relative;
-      width: 100%;
-      aspect-ratio: 2 / 3;
-      border-radius: 3px 6px 6px 3px;
-      box-shadow: -4px 10px 26px rgba(43, 39, 35, 0.22);
+      z-index: 1;
+    }
+    .hero h1 {
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      line-height: 1.02;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      margin: 1.4rem 0 1.5rem;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero p { color: var(--muted); font-size: 1.05rem; max-width: 30rem; margin-bottom: 2.2rem; }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; }
+
+    .btn {
+      font-family: inherit;
+      font-size: 0.9rem;
+      letter-spacing: 0.03em;
+      padding: 0.95rem 1.9rem;
+      border-radius: 999px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: transform 0.2s ease, background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+    }
+    .btn-primary { background: var(--gold); color: #1a1410; font-weight: 600; }
+    .btn-primary:hover { transform: translateY(-2px); background: var(--gold-soft); }
+    .btn-ghost { background: transparent; border-color: var(--border-strong); color: var(--text); }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+    .hero-stats { display: flex; gap: 2.5rem; margin-top: 3rem; }
+    .hero-stats .num { font-family: "Fraunces", serif; font-size: 1.9rem; font-weight: 600; }
+    .hero-stats .lbl { font-size: 0.75rem; color: var(--faint); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    /* Hero stacked covers */
+    .hero-visual { position: relative; height: 460px; perspective: 1600px; }
+    .hero-book {
+      position: absolute;
+      border-radius: 6px;
+      box-shadow: var(--shadow-3d);
+      overflow: hidden;
+      transition: transform 0.5s cubic-bezier(.2,.8,.2,1);
+    }
+    .hero-book .spine { position: absolute; left: 0; top: 0; bottom: 0; width: 10px; background: linear-gradient(90deg, rgba(0,0,0,0.35), transparent); }
+    .hero-book .cover-art { width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between; padding: 1.4rem 1.2rem; }
+    .hero-book .cover-art small { font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; opacity: 0.85; }
+    .hero-book .cover-art b { font-family: "Fraunces", serif; font-size: 1.5rem; line-height: 1.1; font-weight: 600; }
+    .hb1 { width: 240px; height: 350px; left: 18%; top: 8%; transform: rotateY(-14deg) rotateZ(-4deg); z-index: 3; background: linear-gradient(155deg, #2a2622, #14110d); color: #efe7d6; }
+    .hb2 { width: 220px; height: 320px; right: 4%; top: 22%; transform: rotateY(12deg) rotateZ(5deg); z-index: 2; background: linear-gradient(155deg, #3a3128, #1d1812); color: #e9dcc4; }
+    .hb3 { width: 180px; height: 260px; left: 4%; bottom: 0; transform: rotateZ(-8deg); z-index: 1; background: linear-gradient(155deg, #4a3d2c, #261d12); color: #f0e4cc; }
+    .hero-visual:hover .hb1 { transform: rotateY(-10deg) rotateZ(-3deg) translateY(-10px); }
+    .hero-visual:hover .hb2 { transform: rotateY(8deg) rotateZ(4deg) translateY(-6px); }
+
+    /* ---------- Section headers ---------- */
+    .section { padding: 5rem 0; }
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+    .section-head h2 { font-size: clamp(2rem, 4vw, 2.9rem); font-weight: 500; letter-spacing: -0.01em; margin-top: 0.6rem; }
+    .section-head p { color: var(--muted); max-width: 26rem; }
+
+    /* ---------- Featured collections (slider) ---------- */
+    .collections {
+      display: flex;
+      gap: 1.5rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 1rem;
+      scrollbar-width: none;
+    }
+    .collections::-webkit-scrollbar { display: none; }
+    .collection {
+      scroll-snap-align: start;
+      flex: 0 0 340px;
+      height: 240px;
+      border-radius: 14px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: flex-end;
+      padding: 1.6rem;
+      cursor: pointer;
+      transition: transform 0.4s ease, border-color 0.4s ease;
+    }
+    .collection:hover { transform: translateY(-6px); border-color: var(--gold); }
+    .collection::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.75)); z-index: 1; }
+    .collection .bg { position: absolute; inset: 0; z-index: 0; transition: transform 0.6s ease; }
+    .collection:hover .bg { transform: scale(1.08); }
+    .c1 .bg { background: linear-gradient(135deg, #3b2f22, #14100b); }
+    .c2 .bg { background: linear-gradient(135deg, #2c3530, #101513); }
+    .c3 .bg { background: linear-gradient(135deg, #3a2a2a, #150e0e); }
+    .c4 .bg { background: linear-gradient(135deg, #2e2c3a, #100f15); }
+    .collection .meta { position: relative; z-index: 2; color: #f3ecdd; }
+    .collection .meta h3 { font-size: 1.5rem; font-weight: 600; }
+    .collection .meta span { font-size: 0.8rem; opacity: 0.85; }
+
+    /* ---------- Book grid ---------- */
+    .book-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.2rem 1.8rem; }
+    .book-card { position: relative; }
+    .book-cover {
+      position: relative;
+      aspect-ratio: 3 / 4.4;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: var(--shadow-3d);
+      transition: transform 0.45s cubic-bezier(.2,.8,.2,1), box-shadow 0.45s ease;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 22px 20px;
-      color: #f4ece0;
-      overflow: hidden;
+      padding: 1.5rem 1.3rem;
+      cursor: pointer;
     }
-    .cover::before {
-      content: "";
-      position: absolute; left: 0; top: 0; bottom: 0;
-      width: 9px;
-      background: rgba(0,0,0,0.2);
-      box-shadow: inset -2px 0 4px rgba(0,0,0,0.28);
+    .book-card:hover .book-cover { transform: scale(1.06) translateY(-6px); box-shadow: var(--shadow-hover); }
+    .book-cover .spine { position: absolute; left: 0; top: 0; bottom: 0; width: 9px; background: linear-gradient(90deg, rgba(0,0,0,0.4), transparent); }
+    .book-cover small { font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.85; }
+    .book-cover b { font-family: "Fraunces", serif; font-size: 1.3rem; line-height: 1.12; font-weight: 600; }
+    .book-cover .author-on-cover { font-size: 0.72rem; opacity: 0.78; font-style: italic; }
+
+    /* Quick add floating button */
+    .quick-add {
+      position: absolute;
+      left: 50%; bottom: 14px;
+      transform: translateX(-50%) translateY(16px);
+      width: calc(100% - 26px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1rem;
+      border-radius: 999px;
+      background: rgba(20,18,14,0.72);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: #f3ecdd;
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(.2,.8,.2,1), background 0.25s ease, color 0.25s ease;
+      z-index: 4;
     }
-    .cover .tag { font-size: 0.66rem; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0.85; }
-    .cover .c-title { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; line-height: 1.04; }
-    .cover .c-author { font-size: 0.82rem; letter-spacing: 0.06em; opacity: 0.82; margin-top: 6px; }
+    .quick-add svg { width: 15px; height: 15px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .book-card:hover .quick-add { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .quick-add:hover { background: var(--gold); color: #1a1410; border-color: var(--gold); }
 
-    .book-meta { display: flex; justify-content: space-between; align-items: baseline; margin-top: 18px; }
-    .book-meta .m-title { font-size: 1.1rem; }
-    .book-meta .m-author { font-size: 0.9rem; color: var(--charcoal-soft); }
-    .book-meta .price { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--gold-deep); }
+    .book-meta { padding-top: 1rem; }
+    .book-meta .title { font-family: "Fraunces", serif; font-size: 1.05rem; font-weight: 500; }
+    .book-meta .author { font-size: 0.82rem; color: var(--muted); margin-top: 0.1rem; }
+    .book-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 0.6rem; }
+    .price { font-family: "Fraunces", serif; font-size: 1.15rem; font-weight: 600; color: var(--gold); }
+    .rating { font-size: 0.78rem; color: var(--faint); display: flex; align-items: center; gap: 4px; }
+    .rating svg { width: 13px; height: 13px; fill: var(--gold); stroke: none; }
 
-    /* cover palettes */
-    .p1 { background: linear-gradient(155deg, #2f3e57, #1d2838); }
-    .p2 { background: linear-gradient(155deg, #7c6038, #523e1f); }
-    .p3 { background: linear-gradient(155deg, #51403c, #2f211f); }
-    .p4 { background: linear-gradient(155deg, #3a5046, #243029); }
-    .p5 { background: linear-gradient(155deg, #6b2f2f, #44191a); }
-    .p6 { background: linear-gradient(155deg, #444152, #2a2733); }
-    .p7 { background: linear-gradient(155deg, #826a2c, #5a4818); }
-    .p8 { background: linear-gradient(155deg, #314a4a, #1d2e2e); }
+    /* book cover palettes */
+    .p1 { background: linear-gradient(160deg, #2b2620, #131009); color: #efe6d4; }
+    .p2 { background: linear-gradient(160deg, #1f2b2a, #0c1413); color: #d8e8e2; }
+    .p3 { background: linear-gradient(160deg, #34272a, #150d0f); color: #f0d9d6; }
+    .p4 { background: linear-gradient(160deg, #2a2b38, #101117); color: #dcdef0; }
+    .p5 { background: linear-gradient(160deg, #3a3024, #161009); color: #f1e3c8; }
+    .p6 { background: linear-gradient(160deg, #243029, #0d1310); color: #d6ead9; }
+    .p7 { background: linear-gradient(160deg, #322230, #150d14); color: #ecd9e8; }
+    .p8 { background: linear-gradient(160deg, #2d2a20, #14110a); color: #ece4cc; }
 
-    /* ---------- Quote / Editorial ---------- */
-    .editorial { background-color: var(--charcoal); color: var(--cream); padding: 110px 0; }
-    .editorial blockquote {
-      max-width: 820px; margin: 0 auto; text-align: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.9rem, 4vw, 3rem);
-      font-style: italic;
-      line-height: 1.3;
+    /* ---------- Editorial banner ---------- */
+    .editorial {
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      padding: 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
     }
-    .editorial .cite { text-align: center; margin-top: 30px; letter-spacing: 0.2em; font-size: 0.85rem; text-transform: uppercase; color: var(--gold); }
-    .editorial .eyebrow { color: var(--gold); text-align: center; display: block; margin-bottom: 24px; }
+    .editorial blockquote { font-family: "Fraunces", serif; font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 400; line-height: 1.3; font-style: italic; }
+    .editorial cite { display: block; margin-top: 1.4rem; font-style: normal; font-size: 0.85rem; color: var(--gold); letter-spacing: 0.08em; }
+    .editorial .ed-side p { color: var(--muted); margin-bottom: 1.5rem; }
 
     /* ---------- Newsletter ---------- */
-    .news { padding: 100px 0; text-align: center; }
-    .news h2 { font-size: clamp(2.2rem, 4.5vw, 3.2rem); margin: 16px 0 16px; }
-    .news p { color: var(--charcoal-soft); max-width: 480px; margin: 0 auto 36px; }
-    .news form { display: flex; gap: 12px; max-width: 480px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
-    .news input {
-      flex: 1; min-width: 220px;
-      background: transparent;
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 15px 20px;
-      font-family: 'EB Garamond', serif;
-      font-size: 1rem;
-      color: var(--charcoal);
+    .newsletter { text-align: center; padding: 5rem 0; }
+    .newsletter h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 500; margin-bottom: 1rem; }
+    .newsletter p { color: var(--muted); max-width: 30rem; margin: 0 auto 2rem; }
+    .news-form { display: flex; gap: 0.6rem; max-width: 460px; margin: 0 auto; }
+    .news-form input {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.95rem 1.4rem;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.3s ease;
     }
-    .news input:focus { outline: none; border-color: var(--gold-deep); }
-    .news button {
-      background-color: var(--charcoal);
-      color: var(--cream);
-      border: none;
-      cursor: pointer;
-      padding: 15px 34px;
-      border-radius: var(--radius);
-      font-family: 'EB Garamond', serif;
-      font-size: 1rem;
-      letter-spacing: 0.06em;
-      transition: background-color 0.3s ease;
-    }
-    .news button:hover { background-color: var(--gold-deep); }
+    .news-form input:focus { border-color: var(--gold); }
+    .news-form input::placeholder { color: var(--faint); }
 
     /* ---------- Footer ---------- */
-    footer { border-top: 1px solid var(--line); padding: 56px 0 40px; }
-    .foot-grid { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 36px; }
-    .foot-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 600; }
-    .foot-brand span { color: var(--gold-deep); }
-    .foot-col h4 { font-size: 0.78rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold-deep); margin-bottom: 16px; font-weight: 500; }
-    .foot-col ul { list-style: none; }
-    .foot-col li { margin-bottom: 10px; color: var(--charcoal-soft); }
-    .foot-col a:hover { color: var(--gold-deep); }
-    .foot-bottom { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 0.85rem; color: var(--charcoal-soft); }
+    footer { border-top: 1px solid var(--border); padding: 4rem 0 2.5rem; }
+    .foot-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 2.5rem; margin-bottom: 3rem; }
+    .foot-brand { font-family: "Fraunces", serif; font-size: 1.6rem; font-weight: 600; margin-bottom: 0.8rem; }
+    .foot-brand span { color: var(--gold); }
+    .foot-grid p { color: var(--muted); font-size: 0.9rem; max-width: 22rem; }
+    .foot-col h4 { font-size: 0.78rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--faint); margin-bottom: 1.1rem; }
+    .foot-col a { display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.7rem; transition: color 0.25s ease; }
+    .foot-col a:hover { color: var(--gold); }
+    .foot-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 2rem; border-top: 1px solid var(--border); color: var(--faint); font-size: 0.82rem; flex-wrap: wrap; gap: 1rem; }
+
+    /* ---------- Cart drawer ---------- */
+    .overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+      z-index: 200;
+    }
+    .overlay.open { opacity: 1; visibility: visible; }
+    .cart-drawer {
+      position: fixed; top: 0; right: 0; bottom: 0;
+      width: min(420px, 92vw);
+      background: var(--bg-soft);
+      border-left: 1px solid var(--border);
+      z-index: 210;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(.4,0,.2,1);
+      display: flex;
+      flex-direction: column;
+    }
+    .cart-drawer.open { transform: translateX(0); }
+    .cart-head { display: flex; align-items: center; justify-content: space-between; padding: 1.6rem; border-bottom: 1px solid var(--border); }
+    .cart-head h3 { font-size: 1.3rem; font-weight: 600; }
+    .cart-items { flex: 1; overflow-y: auto; padding: 1rem 1.6rem; }
+    .cart-empty { color: var(--faint); text-align: center; margin-top: 3rem; font-size: 0.9rem; }
+    .cart-item { display: flex; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--border); align-items: center; }
+    .cart-item .thumb { width: 46px; height: 64px; border-radius: 4px; flex-shrink: 0; box-shadow: var(--shadow-3d); }
+    .cart-item .ci-info { flex: 1; }
+    .cart-item .ci-info .t { font-family: "Fraunces", serif; font-size: 0.95rem; font-weight: 500; }
+    .cart-item .ci-info .a { font-size: 0.78rem; color: var(--muted); }
+    .cart-item .ci-price { font-family: "Fraunces", serif; color: var(--gold); font-weight: 600; }
+    .ci-remove { background: none; border: none; color: var(--faint); cursor: pointer; font-size: 1.2rem; line-height: 1; padding: 4px; }
+    .ci-remove:hover { color: var(--gold); }
+    .cart-foot { padding: 1.6rem; border-top: 1px solid var(--border); }
+    .cart-total { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.2rem; }
+    .cart-total .lbl { color: var(--muted); font-size: 0.9rem; }
+    .cart-total .amt { font-family: "Fraunces", serif; font-size: 1.6rem; font-weight: 600; }
+    .cart-foot .btn { width: 100%; }
+
+    /* ---------- Reveal animation ---------- */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.in { opacity: 1; transform: none; }
 
     /* ---------- Responsive ---------- */
-    @media (max-width: 980px) {
-      .grid { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 1024px) {
+      .book-grid { grid-template-columns: repeat(3, 1fr); }
+      .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .hero-visual { height: 400px; }
+      .editorial { grid-template-columns: 1fr; padding: 2.5rem; }
     }
-    @media (max-width: 820px) {
-      .nav-links, .nav-cta { display: none; }
-      .menu-toggle { display: block; }
-      .hero-grid { grid-template-columns: 1fr; gap: 48px; }
-      .hero-visual { height: 420px; order: -1; }
-      .grid { grid-template-columns: repeat(2, 1fr); gap: 32px 24px; }
+    @media (max-width: 760px) {
+      .nav-links { display: none; }
+      .search { width: 150px; }
+      .search:focus-within { width: 180px; }
+      .book-grid { grid-template-columns: repeat(2, 1fr); gap: 1.6rem 1.2rem; }
+      .hero-stats { gap: 1.6rem; }
+      .foot-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 480px) {
-      .wrap { padding: 0 22px; }
-      .grid { grid-template-columns: repeat(2, 1fr); gap: 26px 18px; }
-      .cover { padding: 16px 14px; }
-      .cover .c-title { font-size: 1.3rem; }
+      .news-form { flex-direction: column; }
+      .news-form .btn { width: 100%; }
     }
   </style>
 </head>
 <body>
-
-  <!-- Navigation -->
-  <header>
-    <div class="wrap nav">
+  <!-- ===== Navigation ===== -->
+  <nav>
+    <div class="nav-inner">
       <a href="#" class="brand">Kota<span>·</span>Stuffs</a>
-      <nav>
-        <ul class="nav-links">
-          <li><a href="#collection">Collection</a></li>
-          <li><a href="#editorial">Editorial</a></li>
-          <li><a href="#about">The Bookhouse</a></li>
-          <li><a href="#journal">Journal</a></li>
-        </ul>
-      </nav>
-      <a href="#collection" class="nav-cta">Browse Shelf</a>
-      <button class="menu-toggle" aria-label="Open menu">☰</button>
+      <ul class="nav-links">
+        <li><a href="#collections">Collections</a></li>
+        <li><a href="#catalog">Catalog</a></li>
+        <li><a href="#editorial">Editorial</a></li>
+        <li><a href="#journal">Journal</a></li>
+      </ul>
+      <div class="nav-actions">
+        <label class="search" aria-label="Search the catalog">
+          <svg viewBox="0 0 24 24" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="searchInput" placeholder="Search titles, authors…" />
+        </label>
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle light and dark theme">
+          <svg id="themeIcon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+        <button class="icon-btn" id="cartBtn" aria-label="Open cart">
+          <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.7a2 2 0 0 0 2-1.6L23 6H6"/></svg>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== Hero ===== -->
+  <header class="hero">
+    <div class="hero-glow"></div>
+    <div class="wrap hero-grid">
+      <div class="hero-copy reveal">
+        <span class="eyebrow">Est. MMXXVI — Curated Bookhouse</span>
+        <h1>Where stories become <em>heirlooms.</em></h1>
+        <p>A meticulously curated library of rare editions, modern classics, and collector's volumes — bound for those who read deeply and live beautifully.</p>
+        <div class="hero-cta">
+          <a href="#catalog" class="btn btn-primary">Explore the Catalog</a>
+          <a href="#collections" class="btn btn-ghost">View Collections</a>
+        </div>
+        <div class="hero-stats">
+          <div><div class="num">2,400+</div><div class="lbl">Rare Titles</div></div>
+          <div><div class="num">96</div><div class="lbl">First Editions</div></div>
+          <div><div class="num">4.9★</div><div class="lbl">Reader Rating</div></div>
+        </div>
+      </div>
+      <div class="hero-visual reveal">
+        <div class="hero-book hb1"><span class="spine"></span><div class="cover-art"><small>Fiction</small><b>The Midnight<br/>Library</b><small>Matt Haig</small></div></div>
+        <div class="hero-book hb2"><span class="spine"></span><div class="cover-art"><small>Essays</small><b>On Beauty<br/>&amp; Being</b><small>Elaine Scarry</small></div></div>
+        <div class="hero-book hb3"><span class="spine"></span><div class="cover-art"><small>Poetry</small><b>Devotions</b><small>Mary Oliver</small></div></div>
+      </div>
     </div>
   </header>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <span class="eyebrow">Est. 1924 — A Curated Bookhouse</span>
-        <h1>Where every page is a <em>quiet</em> indulgence.</h1>
-        <p>Discover rare editions, modern classics, and timeless literature — hand-selected for readers who treasure the art of the printed word.</p>
-        <div class="hero-actions">
-          <a href="#collection" class="btn-primary">Explore the Collection</a>
-          <a href="#editorial" class="btn-ghost">Read our story</a>
+  <!-- ===== Featured Collections ===== -->
+  <section class="section" id="collections">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">Featured Collections</span>
+          <h2>Curated by mood &amp; moment</h2>
         </div>
+        <p>Hand-selected shelves for every season of the mind — slide to explore.</p>
       </div>
-      <div class="hero-visual">
-        <div class="book-card book-1">
-          <div>
-            <div class="bk-title">The Quiet Hours</div>
-            <div class="bk-author">A. Marlowe</div>
-          </div>
-        </div>
-        <div class="book-card book-2">
-          <div>
-            <div class="bk-title">Gilded Pages</div>
-            <div class="bk-author">E. Fontaine</div>
-          </div>
-        </div>
-        <div class="book-card book-3">
-          <div>
-            <div class="bk-title">A Sea of Ink</div>
-            <div class="bk-author">R. Calder</div>
-          </div>
+      <div class="reveal">
+        <div class="collections">
+          <article class="collection c1"><div class="bg"></div><div class="meta"><h3>Modern Classics</h3><span>48 volumes</span></div></article>
+          <article class="collection c2"><div class="bg"></div><div class="meta"><h3>Quiet Nature Writing</h3><span>32 volumes</span></div></article>
+          <article class="collection c3"><div class="bg"></div><div class="meta"><h3>Rare First Editions</h3><span>21 volumes</span></div></article>
+          <article class="collection c4"><div class="bg"></div><div class="meta"><h3>Poetry &amp; Prose</h3><span>57 volumes</span></div></article>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Strip -->
-  <div class="strip">
-    <div class="wrap strip-inner">
-      <div class="strip-item"><span>✦</span> Rare First Editions</div>
-      <div class="strip-item"><span>✦</span> Hand-Bound Classics</div>
-      <div class="strip-item"><span>✦</span> Free Worldwide Shipping</div>
-      <div class="strip-item"><span>✦</span> Curated Monthly</div>
-    </div>
-  </div>
-
-  <!-- Collection -->
-  <section class="section" id="collection">
+  <!-- ===== Catalog Grid ===== -->
+  <section class="section" id="catalog">
     <div class="wrap">
-      <div class="section-head">
-        <span class="eyebrow">The Featured Shelf</span>
-        <h2>This Season&apos;s Selections</h2>
-        <p>A considered selection of volumes — chosen for their prose, their craft, and the worlds they keep.</p>
+      <div class="section-head reveal">
+        <div>
+          <span class="eyebrow">The Catalog</span>
+          <h2>This season's finest</h2>
+        </div>
+        <p>Every title is sourced, inspected, and wrapped by hand before it reaches your shelf.</p>
       </div>
+      <div class="book-grid" id="bookGrid"></div>
+    </div>
+  </section>
 
-      <div class="grid">
-        <article class="book">
-          <div class="cover p1">
-            <span class="tag">Fiction</span>
-            <div><div class="c-title">The Quiet Hours</div><div class="c-author">Aldous Marlowe</div></div>
-          </div>
-          <div class="book-meta"><div><div class="m-title">The Quiet Hours</div><div class="m-author">A. Marlowe</div></div><div class="price">$34</div></div>
-        </article>
-
-        <article class="book">
-          <div class="cover p2">
-            <span class="tag">Memoir</span>
-            <div><div class="c-title">Gilded Pages</div><div class="c-author">Eloise Fontaine</div></div>
-          </div>
-          <div class="book-meta"><div><div class="m-title">Gilded Pages</div><div class="m-author">E. Fontaine</div></div><div class="price">$28</div></div>
-        </article>
-
-        <article class="book">
-          <div class="cover p3">
-            <span class="tag">Poetry</span>
-            <div><div class="c-title">A Sea of Ink</div><div class="c-author">Rowan Calder</div></div>
-          </div>
-          <div class="book-meta"><div><div class="m-title">A Sea of Ink</div><div class="m-author">R. Calder</div></div><div class="price">$22</div></div>
-        </article>
-
-        <article class="book">
-          <div class="cover p4">
-            <span class="tag">Nature</span>
-            <div><div class="c-title">The Green Wild</div><div class="c-author">Marin Holt</div></div>
-          </div>
-          <div class="book-meta"><div><div class="m-title">The Green Wild</div><div class="m-author">M. Holt</div></div><div class="price">$31</div></div>
-        </article>
-
-        <article class="book">
-          <div class="cover p5">
-            <span class="tag">Classic</span>
-            <div><div class="c-title">Crimson Letters</div><div class="c-author">V. Ashworth</div></div>
-          </div>
-          <div class="book-meta"><div><div class="m-title">Crimson Letters</div><div class="m-author">V. Ashworth</div></div><div class="price">$26</div></div>
-        </article>
-
-        <article class="book">
-          <div class="cover p6">
-            <span class="tag">Essays</span>
-            <div><div class="c-title">On Solitude</div><div class="c-author">L. Beaumont</div></div>
-          </div>
-          <div class="book-meta"><div><div class="m-title">On Solitude</div><div class="m-author">L. Beaumont</div></div><div class="price">$24</div></div>
-        </article>
-
-        <article class="book">
-          <div class="cover p7">
-            <span class="tag">History</span>
-            <div><div class="c-title">Golden Centuries</div><div class="c-author">T. Whitlock</div></div>
-          </div>
-          <div class="book-meta"><div><div class="m-title">Golden Centuries</div><div class="m-author">T. Whitlock</div></div><div class="price">$38</div></div>
-        </article>
-
-        <article class="book">
-          <div class="cover p8">
-            <span class="tag">Fiction</span>
-            <div><div class="c-title">Northern Tides</div><div class="c-author">S. Eriksen</div></div>
-          </div>
-          <div class="book-meta"><div><div class="m-title">Northern Tides</div><div class="m-author">S. Eriksen</div></div><div class="price">$29</div></div>
-        </article>
+  <!-- ===== Editorial ===== -->
+  <section class="section" id="editorial">
+    <div class="wrap">
+      <div class="editorial reveal">
+        <blockquote>
+          "A room without books is like a body without a soul."
+          <cite>— Marcus Tullius Cicero</cite>
+        </blockquote>
+        <div class="ed-side">
+          <p>At KotaStuffs, we believe a book is an object worth keeping. Each edition in our care is chosen for its craft — the weight of the paper, the integrity of the binding, the quiet authority of its design.</p>
+          <a href="#journal" class="btn btn-ghost">Read our Journal</a>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Editorial Quote -->
-  <section class="editorial" id="editorial">
-    <div class="wrap">
-      <span class="eyebrow">From the Bookhouse</span>
-      <blockquote>&ldquo;A room without books is like a body without a soul — and a shelf well chosen is a life well lived.&rdquo;</blockquote>
-      <div class="cite">— The Marginalia Manifesto</div>
-    </div>
-  </section>
-
-  <!-- Newsletter -->
-  <section class="news" id="journal">
-    <div class="wrap">
+  <!-- ===== Newsletter ===== -->
+  <section class="newsletter" id="journal">
+    <div class="wrap reveal">
       <span class="eyebrow">The Journal</span>
-      <h2>Letters for the well-read.</h2>
-      <p>Join our circle for monthly recommendations, rare acquisitions, and quiet musings on the books we love.</p>
-      <form onsubmit="event.preventDefault(); this.reset(); alert('Thank you for subscribing to Marginalia.');">
-        <input type="email" placeholder="Your email address" required aria-label="Email address" />
-        <button type="submit">Subscribe</button>
+      <h2>Join the reading circle</h2>
+      <p>Receive curated recommendations, early access to rare editions, and essays on the art of reading — delivered monthly.</p>
+      <form class="news-form" onsubmit="event.preventDefault(); this.reset(); alert('Welcome to the reading circle.');">
+        <input type="email" placeholder="your@email.com" required aria-label="Email address" />
+        <button class="btn btn-primary" type="submit">Subscribe</button>
       </form>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer id="about">
+  <!-- ===== Footer ===== -->
+  <footer>
     <div class="wrap">
       <div class="foot-grid">
         <div>
           <div class="foot-brand">Kota<span>·</span>Stuffs</div>
-          <p style="max-width:280px;color:var(--charcoal-soft);margin-top:14px;">A curated bookhouse for readers who believe a story deserves a beautiful home.</p>
+          <p>A curated luxury bookhouse for readers who treasure the printed word. Bound with intention, delivered with care.</p>
         </div>
         <div class="foot-col">
           <h4>Shop</h4>
-          <ul>
-            <li><a href="#collection">New Arrivals</a></li>
-            <li><a href="#collection">Rare Editions</a></li>
-            <li><a href="#collection">Gift Sets</a></li>
-            <li><a href="#collection">Bestsellers</a></li>
-          </ul>
+          <a href="#catalog">New Arrivals</a>
+          <a href="#collections">Collections</a>
+          <a href="#catalog">Best Sellers</a>
+          <a href="#catalog">Gift Editions</a>
         </div>
         <div class="foot-col">
-          <h4>Bookhouse</h4>
-          <ul>
-            <li><a href="#editorial">Our Story</a></li>
-            <li><a href="#journal">The Journal</a></li>
-            <li><a href="#about">Visit Us</a></li>
-            <li><a href="#about">Contact</a></li>
-          </ul>
+          <h4>About</h4>
+          <a href="#editorial">Our Story</a>
+          <a href="#journal">Journal</a>
+          <a href="#">Stockists</a>
+          <a href="#">Careers</a>
         </div>
         <div class="foot-col">
-          <h4>Connect</h4>
-          <ul>
-            <li><a href="#">Instagram</a></li>
-            <li><a href="#">Pinterest</a></li>
-            <li><a href="#">Goodreads</a></li>
-          </ul>
+          <h4>Support</h4>
+          <a href="#">Shipping</a>
+          <a href="#">Returns</a>
+          <a href="#">Contact</a>
+          <a href="#">FAQ</a>
         </div>
       </div>
       <div class="foot-bottom">
-        <span>© 2026 Marginalia Bookhouse. All rights reserved.</span>
-        <span>Crafted for the love of reading.</span>
+        <span>© 2026 KotaStuffs. All rights reserved.</span>
+        <span>Crafted for readers, in Kota.</span>
       </div>
     </div>
   </footer>
 
+  <!-- ===== Cart Drawer ===== -->
+  <div class="overlay" id="overlay"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart">
+    <div class="cart-head">
+      <h3>Your Cart</h3>
+      <button class="icon-btn" id="closeCart" aria-label="Close cart">
+        <svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="cart-items" id="cartItems">
+      <p class="cart-empty">Your cart is empty.</p>
+    </div>
+    <div class="cart-foot">
+      <div class="cart-total">
+        <span class="lbl">Total</span>
+        <span class="amt" id="cartTotal">₹0</span>
+      </div>
+      <button class="btn btn-primary">Proceed to Checkout</button>
+    </div>
+  </aside>
+
+  <script>
+    /* ---------- Book data ---------- */
+    const books = [
+      { title: "The Midnight Library", author: "Matt Haig", price: 499, tag: "Fiction", rating: 4.8, p: "p1" },
+      { title: "On Beauty & Being Just", author: "Elaine Scarry", price: 1299, tag: "Essays", rating: 4.7, p: "p2" },
+      { title: "Devotions", author: "Mary Oliver", price: 899, tag: "Poetry", rating: 4.9, p: "p3" },
+      { title: "Klara and the Sun", author: "Kazuo Ishiguro", price: 749, tag: "Fiction", rating: 4.6, p: "p4" },
+      { title: "A Gentleman in Moscow", author: "Amor Towles", price: 1099, tag: "Fiction", rating: 4.9, p: "p5" },
+      { title: "The Overstory", author: "Richard Powers", price: 1499, tag: "Nature", rating: 4.5, p: "p6" },
+      { title: "Letters to a Young Poet", author: "Rainer M. Rilke", price: 399, tag: "Classics", rating: 4.8, p: "p7" },
+      { title: "The Secret History", author: "Donna Tartt", price: 999, tag: "Fiction", rating: 4.7, p: "p8" },
+      { title: "Pilgrim at Tinker Creek", author: "Annie Dillard", price: 849, tag: "Nature", rating: 4.6, p: "p2" },
+      { title: "Just Kids", author: "Patti Smith", price: 699, tag: "Memoir", rating: 4.8, p: "p1" },
+      { title: "The Name of the Rose", author: "Umberto Eco", price: 1199, tag: "Mystery", rating: 4.7, p: "p4" },
+      { title: "Bluets", author: "Maggie Nelson", price: 549, tag: "Poetry", rating: 4.5, p: "p3" },
+    ];
+
+    const INR = (n) => "₹" + n.toLocaleString("en-IN");
+    const starSVG = '<svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>';
+
+    const paletteMap = {
+      p1:"linear-gradient(160deg,#2b2620,#131009)", p2:"linear-gradient(160deg,#1f2b2a,#0c1413)",
+      p3:"linear-gradient(160deg,#34272a,#150d0f)", p4:"linear-gradient(160deg,#2a2b38,#101117)",
+      p5:"linear-gradient(160deg,#3a3024,#161009)", p6:"linear-gradient(160deg,#243029,#0d1310)",
+      p7:"linear-gradient(160deg,#322230,#150d14)", p8:"linear-gradient(160deg,#2d2a20,#14110a)"
+    };
+
+    /* ---------- Render grid ---------- */
+    const grid = document.getElementById("bookGrid");
+    function renderBooks(list) {
+      grid.innerHTML = "";
+      if (!list.length) {
+        grid.innerHTML = '<p style="color:var(--faint);grid-column:1/-1;">No titles match your search.</p>';
+        return;
+      }
+      list.forEach((b) => {
+        const card = document.createElement("article");
+        card.className = "book-card reveal";
+        card.innerHTML = `
+          <div class="book-cover ${b.p}">
+            <span class="spine"></span>
+            <small>${b.tag}</small>
+            <div>
+              <b>${b.title}</b>
+              <div class="author-on-cover">${b.author}</div>
+            </div>
+            <button class="quick-add" data-title="${b.title}" data-author="${b.author}" data-price="${b.price}" data-p="${b.p}">
+              <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Quick Add
+            </button>
+          </div>
+          <div class="book-meta">
+            <div class="title">${b.title}</div>
+            <div class="author">${b.author}</div>
+            <div class="book-foot">
+              <span class="price">${INR(b.price)}</span>
+              <span class="rating">${starSVG} ${b.rating}</span>
+            </div>
+          </div>`;
+        grid.appendChild(card);
+      });
+      bindQuickAdd();
+      observeReveal();
+    }
+
+    /* ---------- Search ---------- */
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      renderBooks(books.filter(b =>
+        b.title.toLowerCase().includes(q) ||
+        b.author.toLowerCase().includes(q) ||
+        b.tag.toLowerCase().includes(q)
+      ));
+    });
+
+    /* ---------- Cart ---------- */
+    const cart = [];
+    const cartItemsEl = document.getElementById("cartItems");
+    const cartTotalEl = document.getElementById("cartTotal");
+    const cartCountEl = document.getElementById("cartCount");
+
+    function renderCart() {
+      if (!cart.length) {
+        cartItemsEl.innerHTML = '<p class="cart-empty">Your cart is empty.</p>';
+      } else {
+        cartItemsEl.innerHTML = cart.map((it, idx) => `
+          <div class="cart-item">
+            <div class="thumb" style="background:${paletteMap[it.p] || paletteMap.p1}"></div>
+            <div class="ci-info">
+              <div class="t">${it.title}</div>
+              <div class="a">${it.author}</div>
+            </div>
+            <span class="ci-price">${INR(it.price)}</span>
+            <button class="ci-remove" data-idx="${idx}" aria-label="Remove item">&times;</button>
+          </div>`).join("");
+        cartItemsEl.querySelectorAll(".ci-remove").forEach(btn => {
+          btn.addEventListener("click", () => { cart.splice(+btn.dataset.idx, 1); renderCart(); });
+        });
+      }
+      const total = cart.reduce((s, it) => s + it.price, 0);
+      cartTotalEl.textContent = INR(total);
+      cartCountEl.textContent = cart.length;
+      cartCountEl.classList.toggle("show", cart.length > 0);
+    }
+
+    function bindQuickAdd() {
+      document.querySelectorAll(".quick-add").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          cart.push({ title: btn.dataset.title, author: btn.dataset.author, price: +btn.dataset.price, p: btn.dataset.p });
+          renderCart();
+          openCart();
+        });
+      });
+    }
+
+    /* ---------- Cart drawer toggle ---------- */
+    const overlay = document.getElementById("overlay");
+    const drawer = document.getElementById("cartDrawer");
+    function openCart() { drawer.classList.add("open"); overlay.classList.add("open"); }
+    function closeCart() { drawer.classList.remove("open"); overlay.classList.remove("open"); }
+    document.getElementById("cartBtn").addEventListener("click", openCart);
+    document.getElementById("closeCart").addEventListener("click", closeCart);
+    overlay.addEventListener("click", closeCart);
+
+    /* ---------- Theme toggle ---------- */
+    const themeToggle = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+    const sunPath = "M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10z";
+    const moonPath = "M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z";
+    themeToggle.addEventListener("click", () => {
+      const root = document.documentElement;
+      const isDark = root.getAttribute("data-theme") === "dark";
+      root.setAttribute("data-theme", isDark ? "light" : "dark");
+      themeIcon.innerHTML = '<path d="' + (isDark ? sunPath : moonPath) + '"/>';
+    });
+
+    /* ---------- Reveal on scroll ---------- */
+    let io;
+    function observeReveal() {
+      if (!io) {
+        io = new IntersectionObserver((entries) => {
+          entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
+        }, { threshold: 0.12 });
+      }
+      document.querySelectorAll(".reveal:not(.in)").forEach(el => io.observe(el));
+    }
+
+    /* ---------- Init ---------- */
+    renderBooks(books);
+    renderCart();
+    observeReveal();
+  </script>
 </body>
 </html>
